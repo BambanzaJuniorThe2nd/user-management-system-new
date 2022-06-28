@@ -6,9 +6,8 @@ The app enables its users to create, update, delete, and fetch users' details. T
 ## Cloning the project
 To clone the project and have its codebase on your local machine, you will need to run the following command in your terminal
 ```
-git clone https://github.com/BambanzaJuniorThe2nd/user-management-system.git --recurse-submodules
+git clone https://github.com/BambanzaJuniorThe2nd/user-management-system-new.git
 ```
-The added flag `--recurse-submodules` indicates that the project depends on other github repositories, which in this case are the client and server. Using this flag will automatically pull the code from their respective repositories into the `webapp` and `server` folders in the root folder.
 
 ## Running the app
 To run the app, you will need to have the latest version of docker installed locally. Additionally, you will have to run the following command in the root folder of the project
