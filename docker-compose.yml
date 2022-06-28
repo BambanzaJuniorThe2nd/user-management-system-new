@@ -35,10 +35,10 @@ services:
   client:
     container_name: usr_mgt_webapp
     build:
-      context: ./client
+      context: ./webapp
       dockerfile: Dockerfile
     volumes:
-      - ./client:/app
+      - ./webapp:/app
       - /app/node_modules
     ports:
       - '8080:8080'
