@@ -34,5 +34,6 @@ func GetConfig() Configuration {
 		panic(err)
 	}
 
+	
 	return conf
 }
