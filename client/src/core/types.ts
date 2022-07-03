@@ -18,3 +18,11 @@ export interface LoginResult {
     user: User;
     token: string;
 }
+
+export interface UserCreateArgs {
+    name: string;
+    email: string;
+    title: string;
+    birthdate: string;
+    isAdmin: boolean;
+}
