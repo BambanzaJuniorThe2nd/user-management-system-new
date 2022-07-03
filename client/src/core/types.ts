@@ -13,3 +13,8 @@ export interface AppMessage {
     type: string;
     message: string;
 }
+
+export interface LoginResult {
+    user: User;
+    token: string;
+}
