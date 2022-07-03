@@ -43,7 +43,8 @@ export interface UserLoginArgs {
 }
 
 export interface ChangePasswordArgs {
-    password: string;
+    old: string;
+    new: string;
 }
 
 export type UserPutArgs = UserCreateArgs;
