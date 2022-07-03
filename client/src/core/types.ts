@@ -8,3 +8,8 @@ export interface User {
     createdAt: Date;
     updatedAt: Date;
 }
+
+export interface AppMessage {
+    type: string;
+    message: string;
+}
