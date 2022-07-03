@@ -31,3 +31,7 @@ export interface UserLoginArgs {
     email: string;
     password: string;
 }
+
+export interface ChangePasswordArgs {
+    password: string;
+}
