@@ -35,3 +35,5 @@ export interface UserLoginArgs {
 export interface ChangePasswordArgs {
     password: string;
 }
+
+export type UserPutArgs = UserCreateArgs;
