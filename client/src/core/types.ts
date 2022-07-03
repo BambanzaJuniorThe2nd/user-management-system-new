@@ -26,3 +26,8 @@ export interface UserCreateArgs {
     birthdate: string;
     isAdmin: boolean;
 }
+
+export interface UserLoginArgs {
+    email: string;
+    password: string;
+}
