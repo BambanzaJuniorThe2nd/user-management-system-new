@@ -14,6 +14,16 @@ export interface AppMessage {
     message: string;
 }
 
+export interface GetUserResult {
+    user: User;
+}
+
+export interface CreateUserResult extends GetUserResult {}
+
+export interface GetCurrentUserResult extends GetUserResult {}
+
+export interface UpdateUserResult extends GetUserResult {}
+
 export interface LoginResult {
     user: User;
     token: string;
