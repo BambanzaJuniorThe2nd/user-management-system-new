@@ -40,11 +40,13 @@ export interface IHttpClient {
     ): Promise<T>;
 }
 
-export interface IClient {
+export interface IBackendClient {
     login(args: UserLoginArgs): Promise<LoginResult>;
     logout(): Promise<void>;
     createUser(args: UserCreateArgs): Promise<User>;
     getUsers(): Promise<User[]>;
+    getCurrentUser(): Promise<User>;
+    getUserById(userId: string): Promise<User>;
     updateUser(
         userId: string,
         args: UserPutArgs
