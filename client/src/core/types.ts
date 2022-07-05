@@ -26,7 +26,7 @@ export interface UpdateUserResult extends GetUserResult {}
 
 export interface LoginResult {
     user: User;
-    token: string;
+    accessToken: string;
 }
 
 export interface UserCreateArgs {
