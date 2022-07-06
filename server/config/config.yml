@@ -1,5 +1,5 @@
 environment: dev
-port: 3000
+port: 5000
 token: secret
 mongo:
   server: mongodb://localhost:27017 # 'localhost' must be replaced with 'mongo', the name of the database service in the docker-compose file
