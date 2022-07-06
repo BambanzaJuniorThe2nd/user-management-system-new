@@ -9,7 +9,7 @@
 <script lang="ts">
 import { defineComponent, watch } from "vue";
 import store from "./store";
-import { Message } from "./core";
+import { AppMessage } from "./core";
 import { toast } from "tailwind-toast";
 
 export default defineComponent({
@@ -20,7 +20,7 @@ export default defineComponent({
       }
     });
 
-    const displayToast = (m: Message) => {
+    const displayToast = (m: AppMessage) => {
       const defaultValues = {
         shape: "square",
         duration: 4000,
