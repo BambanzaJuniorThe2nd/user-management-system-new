@@ -1,5 +1,30 @@
 <template>
-  <div class="container w-70 mx-auto mt-20 px-4" style="border: 1px solid #000">
+  <div class="w-80 m-auto text-center mt-20">
+    <div class="w-20 h-20 mx-auto mb-3" style="border: 1px solid green">Icon</div>
+    <span class="text-lg text-light">Sign in</span>
+    <form @submit.prevent="login" class="mt-5 p-3 rounded-md bg-gray-50 border-2 border-opacity-60 border-solid border-gray-200">
+      <div>
+        <div class="mb-5 text-left">
+          <label class="text-sm font-medium">Email address</label>
+          <input
+            type="text"
+            class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid"
+            v-model="loginCreds.email"
+          />
+        </div>
+        <div class="mb-5 text-left">
+          <label class="text-sm font-medium">Password</label>
+          <input
+            type="password"
+            class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid"
+            v-model="loginCreds.password"
+          />
+        </div>
+        <button type="submit" class="w-full bg-green-600 text-white rounded text-sm py-2 hover:bg-green-400">Sign in</button>
+      </div>
+    </form>
+  </div>
+  <!-- <div class="container w-70 mx-auto mt-20 px-4" style="border: 1px solid #000">
     This is the login page
     <form @submit.prevent="login">
       <div class="mb-6">
@@ -27,7 +52,7 @@
         Sign in
       </button>
     </form>
-  </div>
+  </div> -->
 </template>
 <script lang="ts">
 import { defineComponent, reactive, onMounted } from "vue";
