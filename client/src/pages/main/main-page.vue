@@ -1,5 +1,8 @@
 <template>
   <section>
+    <navbar class="w-full" style="border: 1px solid #000">This is the navbar</navbar>
+  </section>
+  <!-- <section>
     <header class="bg-white space-y-4 p-4 sm:px-8 sm:py-6 lg:p-4 xl:px-8 xl:py-6">
       <div class="flex items-center justify-between">
         <h2 class="font-semibold text-slate-900">Users</h2>
@@ -27,5 +30,5 @@
         </a>
       </li>
     </ul>
-  </section>
+  </section> -->
 </template>

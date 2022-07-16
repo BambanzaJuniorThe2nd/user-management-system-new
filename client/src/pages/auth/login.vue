@@ -1,6 +1,10 @@
 <template>
   <div class="w-80 m-auto text-center mt-20">
-    <div class="w-20 h-20 mx-auto mb-3" style="border: 1px solid green">Icon</div>
+    <div class="w-20 h-20 mx-auto mb-3">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
+      </svg>
+    </div>
     <span class="text-lg text-light">Sign in</span>
     <form @submit.prevent="login" class="mt-5 p-3 rounded-md bg-gray-50 border-2 border-opacity-60 border-solid border-gray-200">
       <div>
