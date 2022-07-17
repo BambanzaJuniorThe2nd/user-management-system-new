@@ -49,7 +49,6 @@ export default defineComponent({
     const loginCreds = reactive({ email: "", password: "" });
 
     const login = async () => {
-      console.log("Inside login function...");
       try {
         await backendClient().login({
           email: loginCreds.email,

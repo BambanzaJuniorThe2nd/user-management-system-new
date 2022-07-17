@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import MainPage from "../pages/main/main-page.vue";
 import AddPage from "../pages/add/add-page.vue";
-import EditPage from "../pages/add/edit-page.vue";
-import DeletePage from "../pages/add/delete-page.vue";
-import ChangePasswordPage from "../pages/add/change-password-page.vue";
+import EditPage from "../pages/edit/edit-page.vue";
+import DeletePage from "../pages/delete/delete-page.vue";
+import ChangePasswordPage from "../pages/change/change-password-page.vue";
 import Login from "../pages/auth/login.vue";
 
 const routes: Array<RouteRecordRaw> = [

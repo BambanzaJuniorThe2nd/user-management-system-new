@@ -23,19 +23,20 @@
 
     <div class="w-80 m-auto text-center mt-20">
         <div class="w-20 h-20 mx-auto mb-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
-            </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+            <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
+          </svg>
         </div>
-        <span class="text-lg text-light">Add user</span>
-        <form @submit.prevent="addUser" class="mt-5 p-3 rounded-md bg-customGray border-2 border-opacity-60 border-solid">
+        <span class="text-lg text-light">Edit user</span>
+        <form @submit.prevent="editUser" class="my-5 p-3 rounded-md bg-customGray border-2 border-opacity-60 border-solid">
             <div>
                 <div class="mb-5 text-left">
                     <label class="text-sm font-light">Name</label>
                     <input
                         type="text"
                         class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid"
-                        v-model="addUserCreds.name"
+                        v-model="editUserCreds.name"
                     />
                 </div>
                 <div class="mb-5 text-left">
@@ -43,7 +44,7 @@
                     <input
                         type="text"
                         class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid"
-                        v-model="addUserCreds.email"
+                        v-model="editUserCreds.email"
                     />
                 </div>
                 <div class="mb-5 text-left">
@@ -51,7 +52,7 @@
                     <input
                         type="text"
                         class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid"
-                        v-model="addUserCreds.title"
+                        v-model="editUserCreds.title"
                     />
                 </div>
                 <div class="mb-5 text-left">
@@ -59,18 +60,19 @@
                     <input
                         type="date"
                         class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid"
-                        v-model="addUserCreds.birthDate"
+                        v-model="editUserCreds.birthDate"
                     />
                 </div>
                 <div class="mb-5 text-left">
                     <label for="roles" class="text-sm font-light">Role</label>
-                    <select id="roles" v-model="addUserCreds.role" class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid">
+                    <select id="roles" v-model="editUserCreds.role" class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid">
                         <option v-for="role in userRoles" :key="role" :value="role">{{role}}</option>
                     </select>
                 </div>
                 <div class="flex flex-row justify-between">
-                    <button type="submit" class="w-1/4 bg-blue-600 text-white rounded text-sm py-2 hover:bg-blue-400">Add</button>
-                    <button type="submit" class="w-1/4 bg-gray-200 text-black rounded text-sm py-2 hover:bg-gray-400 hover:text-white">Clear</button>
+                    <button type="submit" class="w-1/5 bg-blue-600 text-white rounded text-sm py-2 hover:bg-blue-400">Save</button>
+                    <button type="submit" class="w-1/5 bg-gray-200 text-black rounded text-sm py-2 hover:bg-gray-400 hover:text-white">Reset</button>
+                    <button type="submit" class="w-2/5 bg-yellow-400 text-black rounded text-sm py-2 hover:bg-yellow-300 hover:text-black">Change password</button>
                 </div>
             </div>
         </form>
@@ -94,7 +96,7 @@ export default defineComponent({
       }
     });
 
-    const addUserCreds = reactive(
+    const editUserCreds = reactive(
         { 
             name: "", 
             email: "", 
@@ -105,14 +107,14 @@ export default defineComponent({
     );
     const userRoles = reactive(["Admin", "Regular"]);
 
-    const addUser = async () => {
+    const editUser = async () => {
       try {
         await backendClient().createUser({
-            name: addUserCreds.name,
-            email: addUserCreds.email,
-            title: addUserCreds.title,
-            birthDate: addUserCreds.birthDate,
-            isAdmin: addUserCreds.role === "Admin",
+            name: editUserCreds.name,
+            email: editUserCreds.email,
+            title: editUserCreds.title,
+            birthDate: editUserCreds.birthDate,
+            isAdmin: editUserCreds.role === "Admin",
         });
         router.push({ name: "add" });
       } catch (e) {
@@ -121,9 +123,9 @@ export default defineComponent({
     };
 
     return {
-      addUserCreds,
+      editUserCreds,
       userRoles,
-      addUser,
+      editUser,
     };
   }
 

@@ -17,7 +17,6 @@ export class BackendClient implements IBackendClient {
   }
 
   async login(args: UserLoginArgs): Promise<LoginResult> {
-    console.log("backend-client >> login: ", args);
     return await this.client.post<UserLoginArgs, LoginResult>("/users/login", args);
   }
 
