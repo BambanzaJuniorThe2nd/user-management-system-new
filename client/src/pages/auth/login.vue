@@ -6,7 +6,7 @@
       </svg>
     </div>
     <span class="text-lg text-light">Sign in</span>
-    <form @submit.prevent="login" class="mt-5 p-3 rounded-md bg-customGray border-2 border-opacity-60 border-solid border-gray-200">
+    <form @submit.prevent="login" class="mt-5 p-3 rounded-md bg-customGray border-2 border-opacity-60 border-solid">
       <div>
         <div class="mb-5 text-left">
           <label class="text-sm font-light">Email address</label>
