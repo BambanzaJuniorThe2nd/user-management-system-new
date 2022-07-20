@@ -50,7 +50,7 @@
                 </div>
                 <div class="flex flex-row justify-between">
                     <button type="submit" class="w-1/5 bg-blue-600 text-white rounded text-sm py-2 hover:bg-blue-400">Save</button>
-                    <button type="submit" class="w-1/5 bg-gray-200 text-black rounded text-sm py-2 hover:bg-gray-400 hover:text-white">Reset</button>
+                    <button type="submit" class="w-1/5 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium py-2 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Reset</button>
                     <button type="submit" class="w-2/5 bg-yellow-400 text-black rounded text-sm py-2 hover:bg-yellow-300 hover:text-black">Change password</button>
                 </div>
             </div>
