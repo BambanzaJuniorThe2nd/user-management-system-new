@@ -50,10 +50,11 @@ export default defineComponent({
 
     const login = async () => {
       try {
-        await backendClient().login({
+        const res = await backendClient().login({
           email: loginCreds.email,
           password: loginCreds.password,
         });
+        store.setAdmin(res.user);
         router.push({ name: "main" });
       } catch (e) {
         store.setMessage({ type: "error", message: e.message });

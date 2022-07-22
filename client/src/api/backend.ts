@@ -1,10 +1,10 @@
 import {
-    IBackendClient,
-    BackendClient,
-    HttpClient,
-    AfterRequestHook,
-    isSuccessResponse,
-    BeforeRequestHook,
+  IBackendClient,
+  BackendClient,
+  HttpClient,
+  AfterRequestHook,
+  isSuccessResponse,
+  BeforeRequestHook,
 } from "../core";
 import { getAccessToken, setAccessToken } from "../core/auth";
 import { LoginResult } from "../core/types";
@@ -16,10 +16,10 @@ import { LoginResult } from "../core/types";
  * @param config Configuration values of an api request
  */
 const injectAuthTokenHook: BeforeRequestHook = (config) => {
-    const token = getAccessToken();
-    if (token) {
-        config.headers.append("Authorization", token);
-    }
+  const token = getAccessToken();
+  if (token) {
+      config.headers.append("Authorization", `Bearer ${token}`);
+  }
 };
 
 /**
@@ -40,7 +40,7 @@ const setAuthTokenHook: AfterRequestHook = (config, resp, json) => {
  * before sending api request
  */
 const onBeforeRequest: BeforeRequestHook = (config) => {
-    injectAuthTokenHook(config);
+  injectAuthTokenHook(config);
 };
 
 /**
@@ -48,7 +48,7 @@ const onBeforeRequest: BeforeRequestHook = (config) => {
  * if api response contains access token
  */
 const onAfterRequest: AfterRequestHook = (config, resp, json) => {
-    setAuthTokenHook(config, resp, json);
+  setAuthTokenHook(config, resp, json);
 };
 
 /**
@@ -58,14 +58,14 @@ const onAfterRequest: AfterRequestHook = (config, resp, json) => {
  * @returns An instance of IBackendClient
  */
 export function createBackendClient(baseUrl: string): IBackendClient {
-    const client = new BackendClient(
-      new HttpClient({
-        baseUrl,
-        onBeforeRequest,
-        onAfterRequest,
-      })
-    );
-  
-    return client;
+  const client = new BackendClient(
+    new HttpClient({
+      baseUrl,
+      onBeforeRequest,
+      onAfterRequest,
+    })
+  );
+
+  return client;
 }
   

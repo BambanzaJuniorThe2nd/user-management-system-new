@@ -30,12 +30,15 @@ const alertMessage = ref<string>("");
 onMounted(async () => {
   if (getAccessToken()) {
     try {
-      console.log("store: ", store);
-      if (!store.admin) {
+      if (!store.admin.value) {
+        console.log("store.admin is not set", store.admin.value);
         await backendClient().getCurrentUser();
         router.push({ name: "main" });
+        console.log("Setting showNavbar.value to true: ", store.admin);
         showNavbar.value = true;
+        console.log("Setting showNavbar.value to true: ", showNavbar.value);
       } else {
+        console.log("store.admin is set", store.admin.value);
         router.push({ name: "login" });
         showNavbar.value = false;
       }
