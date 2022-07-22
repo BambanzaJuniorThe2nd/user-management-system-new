@@ -29,8 +29,8 @@ const injectAuthTokenHook: BeforeRequestHook = (config) => {
 const setAuthTokenHook: AfterRequestHook = (config, resp, json) => {
     if (isSuccessResponse(resp)) {
       const result = json as LoginResult;
-      if (result?.accessToken) {
-        setAccessToken(result.accessToken);
+      if (result?.token) {
+        setAccessToken(result.token);
       }
     }
 };

@@ -30,6 +30,7 @@ const alertMessage = ref<string>("");
 onMounted(async () => {
   if (getAccessToken()) {
     try {
+      console.log("store: ", store);
       if (!store.admin) {
         await backendClient().getCurrentUser();
         router.push({ name: "main" });
