@@ -14,12 +14,14 @@
 <script lang="ts" setup>
 import { defineComponent, onMounted, ref, watch } from "vue";
 import store from "./store";
+import { useRouter } from "vue-router";
 import { AppMessage, getAccessToken } from "./core";
 import Navbar from "./ui-components/nav.vue";
 import Alert from "./ui-components/alert.vue";
 import { backendClient } from "./api";
 import { toast } from "tailwind-toast";
 
+const router = useRouter();
 const showNavbar = ref(false);
 const showAlert = ref(false);
 const alertType = ref<string>("");
@@ -39,6 +41,9 @@ onMounted(async () => {
     } catch (e) {
       store.setMessage({ type: "error", message: e.message });
     }
+  } else {
+    router.push({ name: "login" });
+    showNavbar.value = false;
   }
 });
 
