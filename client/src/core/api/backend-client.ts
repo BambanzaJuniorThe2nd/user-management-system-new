@@ -42,7 +42,7 @@ export class BackendClient implements IBackendClient {
   }
 
   async getUsers(): Promise<User[]> {
-    return await this.client.get<User[]>(`/users`);
+    return await this.client.get<User[]>(`/users/all`);
   }
 
   async getCurrentUser(): Promise<User> {

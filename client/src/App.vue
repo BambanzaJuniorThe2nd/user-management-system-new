@@ -19,7 +19,6 @@ import { AppMessage, getAccessToken } from "./core";
 import Navbar from "./ui-components/nav.vue";
 import Alert from "./ui-components/alert.vue";
 import { backendClient } from "./api";
-import { toast } from "tailwind-toast";
 
 const router = useRouter();
 const showNavbar = ref(false);
@@ -31,14 +30,10 @@ onMounted(async () => {
   if (getAccessToken()) {
     try {
       if (!store.admin.value) {
-        console.log("store.admin is not set", store.admin.value);
         await backendClient().getCurrentUser();
-        router.push({ name: "main" });
-        console.log("Setting showNavbar.value to true: ", store.admin);
         showNavbar.value = true;
-        console.log("Setting showNavbar.value to true: ", showNavbar.value);
+        router.push({ name: "main" });
       } else {
-        console.log("store.admin is set", store.admin.value);
         router.push({ name: "login" });
         showNavbar.value = false;
       }

@@ -22,16 +22,16 @@
 
       <!-- Users -->
       <ul class="mt-10 grid grid-cols-4 gap-4">
-        <li class="cursor-pointer group hover:bg-blue-500 hover:ring-blue-500 hover:shadow p-3 bg-white ring-1 ring-slate-200 rounded shadow-sm">
+        <li v-for="user in users" class="cursor-pointer group hover:bg-blue-500 hover:ring-blue-500 hover:shadow p-3 bg-white ring-1 ring-slate-200 rounded shadow-sm">
           <a href="#" class="block text-center">
             <div class="w-20 h-20 mx-auto">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full group-hover:stroke-gray-100" fill="none" viewBox="0 0 24 24" stroke="#C3C7CE" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <span class="block group-hover:text-white font-semibold text-slate-900 mt-1">Some name...</span>
+            <span class="block group-hover:text-white font-semibold text-slate-900 mt-1">{{user.name}}</span>
             <hr class="mt-1">
-            <span class="block group-hover:text-blue-200 text-slate-900 text-sm font-light mt-1">Admin</span>
+            <span class="block group-hover:text-blue-200 text-slate-900 text-sm font-light mt-1">{{user.isAdmin ? 'Admin' : 'Regular'}}</span>
           </a>
         </li>
         <li class="flex">
@@ -46,3 +46,27 @@
     </section>
   </section>
 </template>
+<script lang="ts" setup>
+import { onMounted } from "vue";
+import store from "../../store";
+import { useRouter } from "vue-router";
+import { backendClient } from "../../api";
+import { getAccessToken } from "../../core";
+
+const router = useRouter();
+const users = store.users;
+
+onMounted(async () => {
+  if (!getAccessToken()) {
+    router.push({ name: "login" });
+  } else {
+    if (!store.admin.value) {
+      const user = await backendClient().getCurrentUser();
+      store.setAdmin(user);
+    }
+
+    const users = await backendClient().getUsers();
+    store.setUsers(users);
+  }
+});
+</script>
