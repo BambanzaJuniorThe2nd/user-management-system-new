@@ -2,7 +2,7 @@
   <div>
     <main>
       <!-- navbar -->
-      <Navbar :show="showNavbar" />
+      <Navbar :show="showNavbar" @onLogout="handleOnLogoutEvent" />
 
       <!-- Alerts -->
       <Alert :show="showAlert" :type="alertType" :message="alertMessage" @onDismiss="handleDismissAlertEvent"/>
@@ -15,7 +15,7 @@
 import { defineComponent, onMounted, ref, watch } from "vue";
 import store from "./store";
 import { useRouter } from "vue-router";
-import { AppMessage, getAccessToken } from "./core";
+import { AppMessage, getAccessToken, deleteAccessToken } from "./core";
 import Navbar from "./ui-components/nav.vue";
 import Alert from "./ui-components/alert.vue";
 import { backendClient } from "./api";
@@ -70,4 +70,9 @@ const displayAlert = (m: AppMessage) => {
 const handleDismissAlertEvent = () => {
   showAlert.value = false;
 };
+
+const handleOnLogoutEvent = () => {
+  deleteAccessToken();
+  router.push({ name: "login" });
+}
 </script>
