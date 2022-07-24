@@ -7,14 +7,15 @@
             </svg>
         </div>
         <span class="text-lg text-light">Add user</span>
-        <form @submit.prevent="addUser" class="mt-5 p-3 rounded-md bg-customGray border-2 border-opacity-60 border-solid">
+        <form @submit.prevent class="mt-5 p-3 rounded-md bg-customGray border-2 border-opacity-60 border-solid">
             <div>
                 <div class="mb-5 text-left">
                     <label class="text-sm font-light">Name</label>
                     <input
                         type="text"
                         class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid"
-                        v-model="addUserCreds.name"
+                        v-model="details.name"
+                        required
                     />
                 </div>
                 <div class="mb-5 text-left">
@@ -22,7 +23,8 @@
                     <input
                         type="text"
                         class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid"
-                        v-model="addUserCreds.email"
+                        v-model="details.email"
+                        required
                     />
                 </div>
                 <div class="mb-5 text-left">
@@ -30,7 +32,8 @@
                     <input
                         type="text"
                         class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid"
-                        v-model="addUserCreds.title"
+                        v-model="details.title"
+                        required
                     />
                 </div>
                 <div class="mb-5 text-left">
@@ -38,73 +41,64 @@
                     <input
                         type="date"
                         class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid"
-                        v-model="addUserCreds.birthDate"
+                        v-model="details.birthDate"
+                        required
                     />
                 </div>
                 <div class="mb-5 text-left">
                     <label for="roles" class="text-sm font-light">Role</label>
-                    <select id="roles" v-model="addUserCreds.role" class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid">
+                    <select id="roles" v-model="details.role" class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid">
                         <option v-for="role in userRoles" :key="role" :value="role">{{role}}</option>
                     </select>
                 </div>
                 <div class="flex flex-row justify-between">
-                    <button type="submit" class="w-1/4 bg-blue-600 text-white rounded text-sm py-2 hover:bg-blue-400">Add</button>
-                    <button type="submit" class="w-1/4 bg-gray-200 text-black rounded text-sm py-2 hover:bg-gray-400 hover:text-white">Clear</button>
+                    <button @click="addUser" class="w-1/4 bg-blue-600 text-white rounded text-sm py-2 hover:bg-blue-400">Add</button>
+                    <button @click="clear" class="w-1/4 bg-gray-200 text-black rounded text-sm py-2 hover:bg-gray-400 hover:text-white">Clear</button>
                 </div>
             </div>
         </form>
     </div>
   </section>
 </template>
-<script lang="ts">
-import { defineComponent, reactive, onMounted } from "vue";
+<script lang="ts" setup>
+import { reactive, ref, onMounted } from "vue";
 import { backendClient } from "../../api";
 import { useRouter } from "vue-router";
 import { getAccessToken } from "../../core/auth";
 import store from "@/store";
+import { refreshData } from "../util";
 
-export default defineComponent({
-  setup() {
-    const router = useRouter();
+const router = useRouter();
+onMounted(async () => {
+    await refreshData();
+});
 
-    onMounted(() => {
-      if (getAccessToken()) {
-        router.push({ name: "main" });
-      }
-    });
+const defaultValues = {
+    name: "", 
+    email: "", 
+    title: "", 
+    birthDate: new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10), 
+    role: "Regular"
+}
+const details = ref({ ...defaultValues });
+const userRoles = reactive(["Admin", "Regular"]);
 
-    const addUserCreds = reactive(
-        { 
-            name: "", 
-            email: "", 
-            title: "", 
-            birthDate: new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10), 
-            role: "Regular" 
-        }
-    );
-    const userRoles = reactive(["Admin", "Regular"]);
-
-    const addUser = async () => {
-      try {
+const addUser = async () => {
+    try {
         await backendClient().createUser({
-            name: addUserCreds.name,
-            email: addUserCreds.email,
-            title: addUserCreds.title,
-            birthDate: addUserCreds.birthDate,
-            isAdmin: addUserCreds.role === "Admin",
+            name: details.name,
+            email: details.email,
+            title: details.title,
+            birthdate: details.birthdate,
+            isAdmin: details.role === "Admin",
         });
         router.push({ name: "add" });
-      } catch (e) {
+    } catch (e) {
         store.setMessage({ type: "error", message: e.message });
-      }
-    };
+    }
+};
 
-    return {
-      addUserCreds,
-      userRoles,
-      addUser,
-    };
-  }
-
-});
+const clear = () => {
+    details.value = { ...defaultValues };
+};
 </script>
