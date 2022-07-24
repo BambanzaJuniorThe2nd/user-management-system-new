@@ -8,14 +8,15 @@
           </svg>
         </div>
         <span class="text-lg text-light">Edit user</span>
-        <form @submit.prevent="editUser" class="my-5 p-3 rounded-md bg-customGray border-2 border-opacity-60 border-solid">
+        <form @submit.prevent class="my-5 p-3 rounded-md bg-customGray border-2 border-opacity-60 border-solid">
             <div>
                 <div class="mb-5 text-left">
                     <label class="text-sm font-light">Name</label>
                     <input
                         type="text"
                         class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid"
-                        v-model="editUserCreds.name"
+                        v-model="details.name"
+                        required
                     />
                 </div>
                 <div class="mb-5 text-left">
@@ -23,7 +24,8 @@
                     <input
                         type="text"
                         class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid"
-                        v-model="editUserCreds.email"
+                        v-model="details.email"
+                        required
                     />
                 </div>
                 <div class="mb-5 text-left">
@@ -31,7 +33,8 @@
                     <input
                         type="text"
                         class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid"
-                        v-model="editUserCreds.title"
+                        v-model="details.title"
+                        required
                     />
                 </div>
                 <div class="mb-5 text-left">
@@ -39,74 +42,77 @@
                     <input
                         type="date"
                         class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid"
-                        v-model="editUserCreds.birthDate"
+                        v-model="details.birthdate"
+                        required
                     />
                 </div>
                 <div class="mb-5 text-left">
                     <label for="roles" class="text-sm font-light">Role</label>
-                    <select id="roles" v-model="editUserCreds.role" class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid">
+                    <select id="roles" v-model="details.role" class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid">
                         <option v-for="role in userRoles" :key="role" :value="role">{{role}}</option>
                     </select>
                 </div>
                 <div class="flex flex-row justify-between">
-                    <button type="submit" class="w-1/5 bg-blue-600 text-white rounded text-sm py-2 hover:bg-blue-400">Save</button>
-                    <button type="submit" class="w-1/5 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium py-2 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Reset</button>
-                    <button type="submit" class="w-2/5 bg-yellow-400 text-black rounded text-sm py-2 hover:bg-yellow-300 hover:text-black">Change password</button>
+                    <button @click="editUser" type="submit" class="w-1/5 bg-blue-600 text-white rounded text-sm py-2 hover:bg-blue-400">Save</button>
+                    <button @click="reset" class="w-1/5 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium py-2 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Reset</button>
+                    <button v-if="isSelectedUserAdmin" @click="changePassword" class="w-2/5 bg-yellow-400 text-black rounded text-sm py-2 hover:bg-yellow-300 hover:text-black">Change password</button>
+                    <button v-else @click="resetPassword" class="w-2/5 bg-yellow-400 text-black rounded text-sm py-2 hover:bg-yellow-300 hover:text-black">Reset Password</button>
                 </div>
             </div>
         </form>
     </div>
   </section>
 </template>
-<script lang="ts">
-import { defineComponent, reactive, onMounted } from "vue";
-import { backendClient } from "../../api";
-import { useRouter } from "vue-router";
-import { getAccessToken } from "../../core/auth";
+<script lang="ts" setup>
+import { reactive, ref, onMounted, watch, computed } from "vue";
+import { backendClient } from "@/api";
+import { useRouter, useRoute } from "vue-router";
 import store from "@/store";
+import { refreshData, getSelectedUser, userDataFormatted } from "../util";
 
-export default defineComponent({
-  setup() {
-    const router = useRouter();
-
-    onMounted(() => {
-      if (getAccessToken()) {
-        router.push({ name: "main" });
-      }
-    });
-
-    const editUserCreds = reactive(
-        { 
-            name: "", 
-            email: "", 
-            title: "", 
-            birthDate: new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10), 
-            role: "Regular" 
-        }
-    );
-    const userRoles = reactive(["Admin", "Regular"]);
-
-    const editUser = async () => {
-      try {
-        await backendClient().createUser({
-            name: editUserCreds.name,
-            email: editUserCreds.email,
-            title: editUserCreds.title,
-            birthDate: editUserCreds.birthDate,
-            isAdmin: editUserCreds.role === "Admin",
-        });
-        router.push({ name: "add" });
-      } catch (e) {
-        store.setMessage({ type: "error", message: e.message });
-      }
-    };
-
-    return {
-      editUserCreds,
-      userRoles,
-      editUser,
-    };
+const router = useRouter();
+const route = useRoute();
+const details = ref(
+  { 
+      name: "", 
+      email: "", 
+      title: "", 
+      birthdate: new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10), 
+      role: "Regular"
   }
+);
+const userRoles = reactive(["Admin", "Regular"]);
 
+onMounted(async () => {
+  await refreshData();
+  reset();
+});
+
+const editUser = async () => {
+  try {
+    await backendClient().updateUser(
+      route.params.id,
+      { 
+        name: details.value.name,
+        email: details.value.email,
+        title: details.value.title,
+        birthdate: details.value.birthdate,
+        isAdmin: details.value.role === "Admin",
+      }
+    );
+    store.setMessage({ type: "success", message: "User successfully updated" });
+    router.push({ name: "main" });
+  } catch (e) {
+    store.setMessage({ type: "error", message: e.message });
+  }
+};
+
+const reset = () => {
+  const formattedData = userDataFormatted(getSelectedUser(route.params.id).value);
+  details.value = { ...formattedData }
+};
+
+const isSelectedUserAdmin = computed(() => {
+  return store.admin.value && store.currentlySelectedUser.value && store.admin.value._id === store.currentlySelectedUser.value._id;
 });
 </script>

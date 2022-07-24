@@ -22,7 +22,7 @@
 
       <!-- Users -->
       <ul class="mt-10 grid grid-cols-4 gap-4">
-        <li v-for="user in users" class="cursor-pointer group hover:bg-blue-500 hover:ring-blue-500 hover:shadow p-3 bg-white ring-1 ring-slate-200 rounded shadow-sm">
+        <li v-for="user in users" @click="editUser(user._id)" class="cursor-pointer group hover:bg-blue-500 hover:ring-blue-500 hover:shadow p-3 bg-white ring-1 ring-slate-200 rounded shadow-sm">
           <a href="#" class="block text-center">
             <div class="w-20 h-20 mx-auto">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full group-hover:stroke-gray-100" fill="none" viewBox="0 0 24 24" stroke="#C3C7CE" stroke-width="2">
@@ -52,21 +52,16 @@ import store from "../../store";
 import { useRouter } from "vue-router";
 import { backendClient } from "../../api";
 import { getAccessToken } from "../../core";
+import { refreshData } from '../util';
 
-const router = useRouter();
 const users = store.users;
+const router = useRouter();
 
 onMounted(async () => {
-  if (!getAccessToken()) {
-    router.push({ name: "login" });
-  } else {
-    if (!store.admin.value) {
-      const user = await backendClient().getCurrentUser();
-      store.setAdmin(user);
-    }
-
-    const users = await backendClient().getUsers();
-    store.setUsers(users);
-  }
+  await refreshData();
 });
+
+const editUser = (id: string) => {
+  router.push({ name: "edit", params: { id } });
+}
 </script>
