@@ -2,7 +2,13 @@
   <div>
     <main>
       <!-- navbar -->
-      <Navbar :show="showNavbar" @onLogout="handleOnLogoutEvent" />
+      <Navbar 
+        :show="showNavbar" 
+        @onLogoClick="handleOnLogoClickEvent" 
+        @onUsersLinkClick="handleOnUsersLinkClickEvent"
+        @onAddNewUserLinkClick="handleOnAddNewUserLinkClickEvent" 
+        @onLogout="handleOnLogoutEvent" 
+      />
 
       <!-- Alerts -->
       <Alert :show="showAlert" :type="alertType" :message="alertMessage" @onDismiss="handleDismissAlertEvent"/>
@@ -74,5 +80,17 @@ const handleDismissAlertEvent = () => {
 const handleOnLogoutEvent = () => {
   deleteAccessToken();
   router.push({ name: "login" });
+}
+
+const handleOnLogoClickEvent = () => {
+  router.push({ name: "main" });
+}
+
+const handleOnUsersLinkClickEvent = () => {
+  handleOnLogoClickEvent();
+}
+
+const handleOnAddNewUserLinkClickEvent = () => {
+  router.push({ name: "add" });
 }
 </script>
