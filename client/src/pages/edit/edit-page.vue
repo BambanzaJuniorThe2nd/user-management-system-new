@@ -55,7 +55,7 @@
                 <div class="flex flex-row justify-between">
                     <button @click="editUser" type="submit" class="w-1/5 bg-blue-600 text-white rounded text-sm py-2 hover:bg-blue-400">Save</button>
                     <button @click="reset" class="w-1/5 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium py-2 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Reset</button>
-                    <button v-if="isSelectedUserAdmin" @click="changePassword" class="w-2/5 bg-yellow-400 text-black rounded text-sm py-2 hover:bg-yellow-300 hover:text-black">Change password</button>
+                    <button v-if="displayChangePasswordButton" @click="changePassword" class="w-2/5 bg-yellow-400 text-black rounded text-sm py-2 hover:bg-yellow-300 hover:text-black">Change password</button>
                     <button v-else @click="resetPassword" class="w-2/5 bg-yellow-400 text-black rounded text-sm py-2 hover:bg-yellow-300 hover:text-black">Reset Password</button>
                 </div>
             </div>
@@ -68,7 +68,7 @@ import { reactive, ref, onMounted, watch, computed } from "vue";
 import { backendClient } from "@/api";
 import { useRouter, useRoute } from "vue-router";
 import store from "@/store";
-import { refreshData, getSelectedUser, userDataFormatted } from "../util";
+import { refreshData, getSelectedUser, userDataFormatted, isSelectedUserAdmin } from "../util";
 
 const router = useRouter();
 const route = useRoute();
@@ -112,7 +112,7 @@ const reset = () => {
   details.value = { ...formattedData }
 };
 
-const isSelectedUserAdmin = computed(() => {
-  return store.admin.value && store.currentlySelectedUser.value && store.admin.value._id === store.currentlySelectedUser.value._id;
+const displayChangePasswordButton = computed(() => {
+  return isSelectedUserAdmin();
 });
 </script>

@@ -28,7 +28,7 @@ export const usersDataFormatted = (users: User[]) => {
   return users.map((user) => formatDateFieldsInUserObject(user));
 }
 
-export const formatDateFieldsInUserObject = (user: User) => {
+const formatDateFieldsInUserObject = (user: User) => {
   return {
     ...user,
     role: user.isAdmin ? "Admin" : "Regular",
@@ -37,3 +37,7 @@ export const formatDateFieldsInUserObject = (user: User) => {
     updatedAt: moment(user.updatedAt).format("YYYY-MM-DD HH:mm A"),
   };
 };
+
+export const isSelectedUserAdmin = () => {
+  return store.admin.value && store.currentlySelectedUser.value && store.admin.value._id === store.currentlySelectedUser.value._id;
+}
