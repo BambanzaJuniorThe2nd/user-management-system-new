@@ -41,7 +41,7 @@
                     <input
                         type="date"
                         class="form-control w-full rounded-md p-1 text-sm bg-white border-gray-200 mt-2 border-2 border-opacity-80 border-solid"
-                        v-model="details.birthDate"
+                        v-model="details.birthdate"
                         required
                     />
                 </div>
@@ -77,7 +77,7 @@ const defaultValues = {
     name: "", 
     email: "", 
     title: "", 
-    birthDate: new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10), 
+    birthdate: new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().substr(0, 10), 
     role: "Regular"
 }
 const details = ref({ ...defaultValues });
@@ -86,13 +86,15 @@ const userRoles = reactive(["Admin", "Regular"]);
 const addUser = async () => {
     try {
         await backendClient().createUser({
-            name: details.name,
-            email: details.email,
-            title: details.title,
-            birthdate: details.birthdate,
-            isAdmin: details.role === "Admin",
+            name: details.value.name,
+            email: details.value.email,
+            title: details.value.title,
+            birthdate: details.value.birthdate,
+            isAdmin: details.value.role === "Admin",
         });
-        router.push({ name: "add" });
+
+        store.setMessage({ type: "success", message: "User successfully added"});
+        router.push({ name: "main" });
     } catch (e) {
         store.setMessage({ type: "error", message: e.message });
     }

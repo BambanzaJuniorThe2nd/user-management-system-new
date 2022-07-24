@@ -4,7 +4,7 @@
     <section class="mt-5 rounded w-10/12 mx-auto">
       <div class="flex flex-row justify-between">
         <h1 class="text-center py-2 font-bold">Users</h1>
-        <button class="flex flex-row items-center bg-blue-600 hover:bg-blue-400 text-white rounded text-sm p-2">
+        <button @click="goToAddPage" class="flex flex-row items-center bg-blue-600 hover:bg-blue-400 text-white rounded text-sm p-2">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
           </svg>
@@ -35,7 +35,7 @@
           </a>
         </li>
         <li class="flex">
-          <a href="#" class="hover:border-blue-500 hover:border-solid hover:bg-white hover:text-blue-500 group w-full flex flex-col items-center justify-center rounded-md border-2 border-dashed border-slate-300 text-sm leading-6 text-slate-900 font-medium py-3">
+          <a href="#" @click="goToAddPage" class="hover:border-blue-500 hover:border-solid hover:bg-white hover:text-blue-500 group w-full flex flex-col items-center justify-center rounded-md border-2 border-dashed border-slate-300 text-sm leading-6 text-slate-900 font-medium py-3">
             <svg class="group-hover:text-blue-500 mb-1 text-slate-400" width="20" height="20" fill="currentColor" aria-hidden="true">
               <path d="M10 5a1 1 0 0 1 1 1v3h3a1 1 0 1 1 0 2h-3v3a1 1 0 1 1-2 0v-3H6a1 1 0 1 1 0-2h3V6a1 1 0 0 1 1-1Z" />
             </svg>
@@ -63,5 +63,9 @@ onMounted(async () => {
 
 const editUser = (id: string) => {
   router.push({ name: "edit", params: { id } });
+}
+
+const goToAddPage = () => {
+  router.push({ name: "add" });
 }
 </script>
