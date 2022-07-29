@@ -18,19 +18,19 @@ const routes: Array<RouteRecordRaw> = [
         component: AddPage,
     },
     {
-    path: "/users/edit/:id",
-    name: "edit",
-    component: EditPage,
+        path: "/users/edit/:id",
+        name: "edit",
+        component: EditPage,
     },
     {
-    path: "/users/delete/:id",
-    name: "delete",
-    component: DeletePage,
+        path: "/users/delete/:id",
+        name: "delete",
+        component: DeletePage,
     },
     {
-    path: "/users/change/password",
-    name: "change",
-    component: ChangePasswordPage,
+        path: "/users/change/password",
+        name: "change",
+        component: ChangePasswordPage,
     },
     {
         path: "/auth/login",

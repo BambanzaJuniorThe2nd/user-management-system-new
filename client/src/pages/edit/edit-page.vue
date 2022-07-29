@@ -125,4 +125,8 @@ const resetPassword = async () => {
     store.setMessage({ type: "error", message: e.message });
   }
 }
+
+const changePassword = () => {
+  router.push({ name: "change" });
+}
 </script>
