@@ -33,7 +33,7 @@ func ChangePasswordHandler(c *fiber.Ctx) error {
 			})
 		}
 
-		return c.SendStatus(fiber.StatusOK)
+		return c.SendStatus(fiber.StatusNoContent)
 	} else {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"message": database.ERROR_MESSAGE_ACCESS_RESTRICTED,
