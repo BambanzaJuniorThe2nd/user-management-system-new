@@ -52,7 +52,7 @@ export interface IBackendClient {
         args: UserPutArgs
     ): Promise<User>;
     changePassword(userId: string, args: ChangePasswordArgs): Promise<User>;
-    resetUserPassword(userId: string): Promise<User>;
+    resetUserPassword(userId: string): Promise<null>;
     deleteUser(userId: string): Promise<User>;
 }
   

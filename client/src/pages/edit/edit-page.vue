@@ -115,4 +115,14 @@ const reset = () => {
 const displayChangePasswordButton = computed(() => {
   return isSelectedUserAdmin();
 });
+
+const resetPassword = async () => {
+  try {
+    await backendClient().resetUserPassword(route.params.id);
+    store.setMessage({ type: "success", message: "User password successfully reset" });
+    router.push({ name: "main" });
+  } catch (e) {
+    store.setMessage({ type: "error", message: e.message });
+  }
+}
 </script>

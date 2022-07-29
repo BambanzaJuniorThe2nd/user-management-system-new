@@ -37,8 +37,8 @@ export class BackendClient implements IBackendClient {
     return await this.client.put<ChangePasswordArgs, User>(`/users/password/change/${userId}`, args);
   }
 
-  async resetUserPassword(userId: string): Promise<User> {
-    return await this.client.put<null, User>(`/users/password/reset/${userId}`, null);
+  async resetUserPassword(userId: string): Promise<null> {
+    return await this.client.put<null, null>(`/users/password/reset/${userId}`, null);
   }
 
   async getUsers(): Promise<User[]> {
