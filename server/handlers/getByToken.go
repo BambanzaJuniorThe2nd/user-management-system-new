@@ -7,7 +7,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-
 func GetByTokenHandler(c *fiber.Ctx) error {
 	// Access dbClient
 	dbClient := c.Locals("dbClient").(*database.UsersClient)
